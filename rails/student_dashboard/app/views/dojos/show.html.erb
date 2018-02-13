@@ -1,0 +1,35 @@
+<a href='/'>Home</a><br>
+<a href='/edit/<%= @dojos.id %>'>Edit</a>
+<a href='/dojos/<%= @dojos.id %>/students/new'>Add Student</a>
+<hr>
+<h1><%= @dojos.branch %></h1>
+
+<h3> Address: <%= @dojos.street %></h3>
+<h3>City: <%= @dojos.city %></h3>
+<h3>State: <%= @dojos.state %></h3>
+
+<h1>Student Roster:</h1>
+<table>
+   <thead>
+      <tr>
+         <td>First Name</td>
+         <td>Last Name</td>
+         <td>Email</td>
+         <td>Actions</td>
+      </tr>
+   </thead>
+   <% @students.each do |student| %>
+      <tbody>
+         <tr>
+            <td><%= student.first_name %></td>
+            <td><%= student.last_name %></td>
+            <td><%= student.email %></td>
+            <td>
+               <a href='/show/student/<%= student.id %>'>Show</a>
+               <a href='/edit/student/<%= student.id %>'>Edit</a>
+            </td>
+         </tr>
+      </tbody>
+   <% end %>
+</table>
+<hr>

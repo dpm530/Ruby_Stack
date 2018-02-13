@@ -1,0 +1,54 @@
+<h1>Ninja Gold:</h1>
+
+<div>
+   <h3>Your Gold: <%= session[:gold_count] %></h3>
+</div>
+
+<div>
+   <h3>Farm</h3>
+   <p>(Earns 10-20 golds)</p>
+   <form action="/farm" method="post">
+      <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+      <input type="hidden" name="action" value="farm">
+      <input type="submit" value="Find Gold!">
+   </form>
+</div>
+
+<div>
+   <h3>Cave</h3>
+   <p>(Earns 5-10 golds)</p>
+   <form action="/cave" method="post">
+      <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+      <input type="hidden" name="action" value="cave">
+      <input type="submit" value="Find Gold!">
+   </form>
+</div>
+
+<div>
+   <h3>House</h3>
+   <p>(Earns 2-5 golds)</p>
+   <form action="/house" method="post">
+      <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+      <input type="hidden" name="action" value="house">
+      <input type="submit" value="Find Gold!">
+   </form>
+</div>
+
+<div>
+   <h3>Casino</h3>
+   <p>(Earns/takes 0-50 golds)</p>
+   <form action="/casino" method="post">
+      <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+      <input type="hidden" name="action" value="casino">
+      <input type="submit" value="Find Gold!">
+   </form>
+</div>
+
+<div>
+   <h3>Activities:</h3>
+   <div>
+      <% session[:activities].reverse_each do |activity|%>
+         <p><%= activity %></p>
+      <%end%>
+   </div>
+</div>

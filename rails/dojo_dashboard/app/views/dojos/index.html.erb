@@ -1,0 +1,22 @@
+<h1>Dojo Dashboard:</h1>
+
+<table>
+   <thead>
+      <tr>
+         <th>Coding Dojo Branch</th>
+         <th>Street</th>
+         <th>City</th>
+         <th>State</th>
+      </tr>
+   </thead>
+   <% @dojos.each do |dojo|%>
+      <tbody>
+         <tr>
+            <td><%= dojo.branch %></td>
+            <td><%= dojo.street %></td>
+            <td><%= dojo.city %></td>
+            <td><%= dojo.state %></td>
+         </tr>
+      </tbody>
+   <% end %>
+</table>
