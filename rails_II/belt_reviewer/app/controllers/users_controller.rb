@@ -4,6 +4,9 @@
       @user=User.find(params[:id])
    end
 
+   def new
+   end
+
    def create
       @location=Location.existsOrCreate(params[:location][:city], params[:location][:state])
 
