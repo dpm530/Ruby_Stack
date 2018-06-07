@@ -33,26 +33,26 @@
 
          <!-- Poeple who joined the event -->
          <% unless @event.users.empty? %>
-         <table class='table'>
-            <thead>
-               <tr>
-                  <th>Name</th>
-                  <th>Location</th>
-                  <th>State</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <% @event.users.each do |user| %>
-                  <td><%= user.first_name.titleize %> <%= user.last_name.titleize %></td>
-                  <td><%= user.location.city.titleize %></td>
-                  <td><%= user.location.state %></td>
-                  <% end %>
-               </tr>
-            </tbody>
-         </table>
+            <table class='table'>
+               <thead>
+                  <tr>
+                     <th>Name</th>
+                     <th>Location</th>
+                     <th>State</th>
+                  </tr>
+               </thead>
+               <tbody>
+                     <% @event.users.each do |user| %>
+                        <tr>
+                           <td><%= user.first_name.titleize %> <%= user.last_name.titleize %></td>
+                           <td><%= user.location.city.titleize %></td>
+                           <td><%= user.location.state.titleize %></td>
+                        </tr>
+                     <% end %>
+               </tbody>
+            </table>
          <% else %>
-         <h4>No one joined your event.</h4>
+            <h4>No one joined your event.</h4>
          <% end %>
          <!-- end of poeple who joined the event -->
 

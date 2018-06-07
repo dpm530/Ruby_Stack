@@ -1,9 +1,7 @@
  class EventsController < ApplicationController
 
    def index
-      p current_user
-      @in_state_events=Event.joins(:location).where('locations.state = ?', [current_user.location.state])
-      @out_of_state_events=Event.where.not(id: @in_state_events)
+      @groupups=Event.all
    end
 
    def create

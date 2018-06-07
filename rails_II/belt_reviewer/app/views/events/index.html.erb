@@ -15,6 +15,11 @@
                <li class="nav-item">
                   <a class="nav-link" href='/events/new'>Create Event</a>
                </li>
+               <% if current_user %>
+                  <li class="nav-item">
+                     <a class="nav-link" href="/users/<%= current_user.id %>/edit">Edit Profile</a>
+                  </li>
+               <% end %>
                <li class="nav-item">
                   <a class="nav-link" href='/logout' data-method="delete">Log out</a>
                </li>
@@ -23,95 +28,71 @@
       </nav>
       <div class="container">
          <h1>Welcome, <%= current_user.first_name.titleize %> <%= current_user.last_name.titleize %></h1>
-         <a href='/users/<%= current_user.id %>/edit'>Edit My Profile</a>
       </div>
       <div class="container">
-         <!-- In State Events -->
-         <h2>In State Events:</h2>
-         <% if @in_state_events %>
-         <table class='table'>
-            <thead>
-               <tr>
-                  <th>Name</th>
-                  <th>Date</th>
-                  <th>Location</th>
-                  <th>Host</th>
-                  <th>Action/Status</th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <% @in_state_events.each do |event| %>
-                  <td><a href='/events/<%= event.id %>'><%= event.name %></a></td>
-                  <td><%= event.date %></td>
-                  <td><%= event.location.city %></td>
-                  <td><a href="/users/<%= event.user.id %>"><%= event.user.first_name.titleize %></a></td>
-                  <td>
-                     <% if event.user==current_user %>
-
-                     <a href="/events/<%= event.id%>/edit">Edit</a>
-                     <a href="/events/<%= event.id%>" data-method='delete'>Delete</a>
-
-                     <% else %>
-                     <!-- Join Action -->
-                     <% unless event.users.include? current_user %>
-                     <form action="/events/<%= event.id %>/user" method="post">
-                        <input type='hidden' name='authenticity_token' value="<%= form_authenticity_token %>">
-                        <button class='btn btn-primary' type='submit'>Join</button>
-                     </form>
-                     <!-- End Join Action -->
-                     <% else %>
-                     <span>Joining</span>
-                     <!-- Cancel Action -->
-                     <form action='/events/<%= event.id %>/user' method='post'>
-                        <input type='hidden' name='_method' value='delete'>
-                        <input type='hidden' name='authenticity_token' value="<%= form_authenticity_token %>">
-                        <button class='btn btn-danger'>Cancel</button>
-                     </form>
-                     <!-- end cancel action -->
-                     <% end %>
-                     <% end %>
-                  </td>
-                  <% end %>
-               </tr>
-            </tbody>
-         </table>
-         <% else %>
-         <h4>Empty</h4>
-         <% end %>
-         <!-- End in state events -->
-
-         <!-- Out of state events -->
-         <h2>Out of State Events:</h2>
-         <% unless @out_of_state_events.empty? %>
-         <table class='table'>
-            <thead>
-               <tr>
-                  <th>Name</th>
-                  <th>Date</th>
-                  <th>Location</th>
-                  <th>State</th>
-                  <th>Host</th>
-                  <th>Action/Status</th>
-               </tr>
-            </thead>
-            <% @out_of_state_events.each do |event| %>
-            <tbody>
-               <tr>
-                  <td><a href='/events/<%= event.id %>'><%= event.name %></a></td>
-                  <td><%= event.date %></td>
-                  <td><%= event.location.city %></td>
-                  <td><%= event.location.state %></td>
-                  <td><%= event.user.first_name.titleize %></td>
-                  <td> Not Yet!</td>
-               </tr>
-            </tbody>
-            <% end %>
-         </table>
-         <% else %>
-         <h4>Empty</h4>
-         <% end %>
-         <!-- End out of state events -->
+         <div class="row">
+            <div class="col-2">
+               <ul class="nav flex-column">
+                  <li class="nav-item">
+                     <a class="nav-link active" data-toggle="pill" href="#allGroupUps">All GroupUps</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" data-toggle="pill" href="#myGroupUps">My GroupUps</a>
+                  </li>
+                  <li class="nav-item">
+                     <a class="nav-link" data-toggle="pill" href="#going">I'm going</a>
+                  </li>
+               </ul>
+            </div>
+            <div class="col-10">
+               <div class="tab-content">
+                  <div class="tab-pane container active" id="allGroupUps">
+                     <table class="table">
+                        <thead>
+                           <tr>
+                              <th>Name</th>
+                              <th>Date</th>
+                              <th>Location</th>
+                              <th>Host</th>
+                              <th>Status</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <% @groupups.each do |groupup| %>
+                                 <td><a href='/events/<%= groupup.id %>'><%= groupup.name %></a></td>
+                                 <td><%= groupup.date %></td>
+                                 <td><%= groupup.location.city %></td>
+                                 <td><a href="/users/<%= groupup.user.id %>"><%= groupup.user.first_name.titleize %></td>
+                                 <td>
+                                    <% if groupup.user==current_user %>
+                                       <a href="/events/<%= groupup.id %>/edit">Edit</a>
+                                       <a href="/events/<%= groupup.id %>" data-method='delete'>Delete</a>
+                                    <% else %>
+                                       <% unless groupup.users.include? current_user %>
+                                          <form action="/events/<%= groupup.id %>/user" method="post">
+                                             <input type='hidden' name='authenticity_token' value="<%= form_authenticity_token %>">
+                                             <button class='btn btn-primary' type='submit'>Join</button>
+                                          </form>
+                                       <% else %> 
+                                          <form action='/events/<%= groupup.id %>/user' method='post'>
+                                             <input type='hidden' name='_method' value='delete'>
+                                             <input type='hidden' name='authenticity_token' value="<%= form_authenticity_token %>">
+                                             <button class='btn btn-danger'>Cancel</button>
+                                          </form>
+                                       <% end %>
+                                    <% end %>
+                                 </td>
+                              <% end %>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="tab-pane container fade" id="myGroupUps">...</div>
+                  <div class="tab-pane container fade" id="going">...</div>
+               </div>
+            </div>
+         </div>
       </div>
    </body>
 </html>
